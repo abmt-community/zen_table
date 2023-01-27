@@ -1,0 +1,92 @@
+{
+  "type": "list",
+  "elements": [
+    {
+      "type": "input_num",
+      "param": "speed_mm_sec",
+      "min": 0,
+      "max": 100,
+      "step": 0.01,
+      "btn_val": 1,
+      "show_input": true,
+      "show_range": true,
+      "show_btn": false,
+      "width": 1517,
+      "height": 20
+    },
+    {
+      "signals": [
+        "controller.mag_rad",
+        "controller.mag_ang"
+      ],
+      "type": "scope",
+      "time_range": 10,
+      "y_max": "auto",
+      "y_min": "auto",
+      "width": 1517,
+      "height": 150
+    },
+    {
+      "signals": [
+        "controller.tick_rad"
+      ],
+      "type": "scope",
+      "time_range": 10,
+      "y_max": "auto",
+      "y_min": "auto",
+      "width": 1517,
+      "height": 150
+    },
+    {
+      "signals": [
+        "sensor_ang.w.z",
+        "sensor_ang.w.x",
+        "sensor_ang.w.y"
+      ],
+      "type": "scope",
+      "time_range": 8,
+      "y_max": "auto",
+      "y_min": "auto",
+      "width": 1517,
+      "height": 150
+    },
+    {
+      "signals": [
+        "sensor_ang.acc.x",
+        "sensor_ang.acc.y",
+        "sensor_ang.acc.z"
+      ],
+      "type": "scope",
+      "time_range": 20,
+      "y_max": "auto",
+      "y_min": "auto",
+      "width": 1517,
+      "height": 150
+    },
+    {
+      "signals": [
+        "player.x",
+        "avg_x.out"
+      ],
+      "type": "scope",
+      "time_range": 8,
+      "y_max": "auto",
+      "y_min": "auto",
+      "width": 1517,
+      "height": 150
+    },
+    {
+      "signals": [
+        "dt.dt"
+      ],
+      "type": "scope",
+      "time_range": 8,
+      "y_max": "auto",
+      "y_min": "auto",
+      "width": 1517,
+      "height": 150
+    }
+  ],
+  "width": 1517,
+  "height": 930
+}

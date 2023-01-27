@@ -1,0 +1,903 @@
+{
+  "model_is_node": false,
+  "nodes": [
+    {
+      "name": "i2c",
+      "type": "class",
+      "cfg": {
+        "class": "i2c",
+        "prj": "io",
+        "device": "/dev/i2c-1"
+      },
+      "pos": {
+        "x": -1785,
+        "y": -483
+      },
+      "rotate": false,
+      "comment_out": false,
+      "raster": "20ms"
+    },
+    {
+      "name": "sensor_ang",
+      "type": "class",
+      "cfg": {
+        "class": "mpu_i2c_sensor",
+        "prj": "io",
+        "enable_magnetometer": true,
+        "use_alternate_address": false
+      },
+      "pos": {
+        "x": -1580,
+        "y": -373
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "i2c_bus": {
+          "node": "i2c",
+          "pin": "i2c_bus"
+        }
+      },
+      "default_values": {
+        "i2c_bus": ""
+      }
+    },
+    {
+      "name": "sensor_rad",
+      "type": "class",
+      "cfg": {
+        "class": "mpu_i2c_sensor",
+        "prj": "io",
+        "enable_magnetometer": true,
+        "use_alternate_address": true
+      },
+      "pos": {
+        "x": -1583,
+        "y": -619
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "i2c_bus": {
+          "node": "i2c",
+          "pin": "i2c_bus"
+        }
+      },
+      "default_values": {
+        "i2c_bus": ""
+      }
+    },
+    {
+      "name": "expr_1",
+      "type": "expression",
+      "cfg": {
+        "function": "mag.len()",
+        "output_name": "out",
+        "output_type": "auto",
+        "type_header": "",
+        "disable_output": false
+      },
+      "pos": {
+        "x": -1225,
+        "y": -583
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "mag": {
+          "node": "sensor_rad",
+          "pin": "mag"
+        }
+      },
+      "default_values": {
+        "mag": ""
+      }
+    },
+    {
+      "name": "expr_2",
+      "type": "expression",
+      "cfg": {
+        "function": "mag.len()",
+        "output_name": "out",
+        "output_type": "auto",
+        "type_header": "",
+        "disable_output": false
+      },
+      "pos": {
+        "x": -1230,
+        "y": -336
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "mag": {
+          "node": "sensor_ang",
+          "pin": "mag"
+        }
+      },
+      "default_values": {
+        "mag": ""
+      }
+    },
+    {
+      "name": "controller",
+      "type": "class",
+      "cfg": {
+        "class": "controller",
+        "prj": "zen_table",
+        "ticks_per_round": 15240,
+        "ticks_per_mm": 20,
+        "radius_mm": 298,
+        "mag_zero_level_rad": 2000,
+        "mag_zero_level_ang": 500,
+        "normal_speed": 30,
+        "calib_speed": 10,
+        "calib_ticks_per_s": 600,
+        "max_ticks_per_s": 2000,
+        "max_ticks_per_sec": 500
+      },
+      "pos": {
+        "x": -426,
+        "y": -1
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "x": {
+          "node": "ma_filter_x",
+          "pin": "out"
+        },
+        "y": {
+          "node": "ma_filter_y",
+          "pin": "out"
+        },
+        "mag_rad": {
+          "node": "rt_rad",
+          "pin": "out"
+        },
+        "mag_ang": {
+          "node": "rt_ang",
+          "pin": "out"
+        },
+        "normal_speed": {
+          "node": "speed_mm_sec",
+          "pin": "value"
+        }
+      },
+      "default_values": {
+        "x": "0",
+        "y": "0",
+        "mag_rad": "0",
+        "mag_ang": "0",
+        "normal_speed": "10"
+      }
+    },
+    {
+      "name": "player",
+      "type": "class",
+      "cfg": {
+        "class": "player",
+        "prj": "zen_table",
+        "mm_per_s": 10,
+        "radius_mm": 300,
+        "track_dir": "/opt/tracks"
+      },
+      "pos": {
+        "x": -1462,
+        "y": 357
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "speed": {
+          "node": "delay",
+          "pin": "out"
+        }
+      },
+      "default_values": {
+        "speed": "0"
+      }
+    },
+    {
+      "name": "rt_ang",
+      "type": "base",
+      "cfg": {
+        "node": "rt",
+        "data_type": "double",
+        "start_value": 0,
+        "type_header": ""
+      },
+      "pos": {
+        "x": -911,
+        "y": -332
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "in": {
+          "node": "expr_2",
+          "pin": "out"
+        }
+      },
+      "default_values": {
+        "in": ""
+      }
+    },
+    {
+      "name": "rt_rad",
+      "type": "base",
+      "cfg": {
+        "node": "rt",
+        "data_type": "double",
+        "start_value": 0,
+        "type_header": ""
+      },
+      "pos": {
+        "x": -902,
+        "y": -583
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "in": {
+          "node": "expr_1",
+          "pin": "out"
+        }
+      },
+      "default_values": {
+        "in": ""
+      }
+    },
+    {
+      "name": "delay",
+      "type": "base",
+      "cfg": {
+        "node": "delay",
+        "data_type": "double",
+        "start_value": "0",
+        "type_header": ""
+      },
+      "pos": {
+        "x": -1451,
+        "y": 629
+      },
+      "rotate": true,
+      "comment_out": false,
+      "inputs": {
+        "in": {
+          "node": "controller",
+          "pin": "max_speed"
+        }
+      },
+      "default_values": {
+        "in": ""
+      }
+    },
+    {
+      "name": "bpio_usb",
+      "type": "class",
+      "cfg": {
+        "class": "bpio_usb",
+        "prj": "bpio",
+        "device": "/dev/ttyACM0",
+        "stepper_pt2_t": 0.1,
+        "stepper_pt2_d": 1,
+        "pwm_prescaler": 1
+      },
+      "pos": {
+        "x": 367,
+        "y": 15
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "stepper_pos_1": {
+          "node": "controller",
+          "pin": "tick_ang"
+        },
+        "stepper_reset_1": {
+          "node": "controller",
+          "pin": "reset_ang"
+        },
+        "stepper_pos_2": {
+          "node": "controller",
+          "pin": "tick_rad"
+        },
+        "stepper_reset_2": {
+          "node": "controller",
+          "pin": "reset_rad"
+        }
+      },
+      "default_values": {
+        "led": "",
+        "pwm_1": "0",
+        "pwm_2": "0",
+        "pwm_3": "0",
+        "pwm_4": "0",
+        "pwm_5": "0",
+        "pwm_6": "0",
+        "stepper_pos_1": "0",
+        "stepper_reset_1": "false",
+        "stepper_pos_2": "0",
+        "stepper_reset_2": "false",
+        "stepper_pos_3": "0",
+        "stepper_reset_3": "false",
+        "stepper_pos_4": "0",
+        "stepper_reset_4": "false"
+      }
+    },
+    {
+      "name": "gpio_stepper",
+      "type": "base",
+      "cfg": {
+        "node": "subsystem",
+        "nodes": [
+          {
+            "name": "tick_rad",
+            "type": "base",
+            "cfg": {
+              "node": "input",
+              "name": "in"
+            },
+            "pos": {
+              "x": -39,
+              "y": 33
+            },
+            "rotate": false,
+            "comment_out": false
+          },
+          {
+            "name": "reset_rad",
+            "type": "base",
+            "cfg": {
+              "node": "input",
+              "name": "reset_rad_1"
+            },
+            "pos": {
+              "x": -56,
+              "y": 149
+            },
+            "rotate": false,
+            "comment_out": false
+          },
+          {
+            "name": "tick_ang",
+            "type": "base",
+            "cfg": {
+              "node": "input",
+              "name": "tick_ang_1"
+            },
+            "pos": {
+              "x": -42,
+              "y": 257
+            },
+            "rotate": false,
+            "comment_out": false
+          },
+          {
+            "name": "reset_ang",
+            "type": "base",
+            "cfg": {
+              "node": "input",
+              "name": "reset_ang_1"
+            },
+            "pos": {
+              "x": -59,
+              "y": 373
+            },
+            "rotate": false,
+            "comment_out": false
+          },
+          {
+            "name": "m1_dir",
+            "type": "class",
+            "cfg": {
+              "class": "gpio_output",
+              "prj": "io",
+              "device": "/dev/gpiochip0",
+              "pin": 27
+            },
+            "pos": {
+              "x": 944,
+              "y": 244
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "stepper_ang",
+                "pin": "dir"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          },
+          {
+            "name": "m1_step",
+            "type": "class",
+            "cfg": {
+              "class": "gpio_output",
+              "prj": "io",
+              "device": "/dev/gpiochip0",
+              "pin": 17
+            },
+            "pos": {
+              "x": 950,
+              "y": 356
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "stepper_ang",
+                "pin": "step"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          },
+          {
+            "name": "m2_dir",
+            "type": "class",
+            "cfg": {
+              "class": "gpio_output",
+              "prj": "io",
+              "device": "/dev/gpiochip0",
+              "pin": 9
+            },
+            "pos": {
+              "x": 935,
+              "y": 0
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "stepper_rad",
+                "pin": "dir"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          },
+          {
+            "name": "m2_step",
+            "type": "class",
+            "cfg": {
+              "class": "gpio_output",
+              "prj": "io",
+              "device": "/dev/gpiochip0",
+              "pin": 10
+            },
+            "pos": {
+              "x": 936,
+              "y": 111
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "stepper_rad",
+                "pin": "step"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          },
+          {
+            "name": "stepper_ang",
+            "type": "class",
+            "cfg": {
+              "class": "stepper",
+              "prj": "zen_table",
+              "invert_dir": false
+            },
+            "pos": {
+              "x": 531,
+              "y": 273
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "pos": {
+                "node": "rt_6",
+                "pin": "out"
+              },
+              "reset": {
+                "node": "rt_7",
+                "pin": "out"
+              }
+            },
+            "raster": "1ms",
+            "default_values": {
+              "pos": "0",
+              "reset": "false"
+            }
+          },
+          {
+            "name": "stepper_rad",
+            "type": "class",
+            "cfg": {
+              "class": "stepper",
+              "prj": "zen_table",
+              "invert_dir": false
+            },
+            "pos": {
+              "x": 538,
+              "y": 44
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "pos": {
+                "node": "rt_2",
+                "pin": "out"
+              },
+              "reset": {
+                "node": "rt_3",
+                "pin": "out"
+              }
+            },
+            "raster": "1ms",
+            "default_values": {
+              "pos": "0",
+              "reset": "false"
+            }
+          },
+          {
+            "name": "rt_2",
+            "type": "base",
+            "cfg": {
+              "node": "rt",
+              "data_type": "double",
+              "start_value": 0,
+              "type_header": ""
+            },
+            "pos": {
+              "x": 252,
+              "y": 34
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "tick_rad",
+                "pin": "out"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          },
+          {
+            "name": "rt_3",
+            "type": "base",
+            "cfg": {
+              "node": "rt",
+              "data_type": "double",
+              "start_value": 0,
+              "type_header": ""
+            },
+            "pos": {
+              "x": 250,
+              "y": 144
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "reset_rad",
+                "pin": "out"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          },
+          {
+            "name": "rt_6",
+            "type": "base",
+            "cfg": {
+              "node": "rt",
+              "data_type": "double",
+              "start_value": 0,
+              "type_header": ""
+            },
+            "pos": {
+              "x": 257,
+              "y": 257
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "tick_ang",
+                "pin": "out"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          },
+          {
+            "name": "rt_7",
+            "type": "base",
+            "cfg": {
+              "node": "rt",
+              "data_type": "double",
+              "start_value": 0,
+              "type_header": ""
+            },
+            "pos": {
+              "x": 250,
+              "y": 374
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "reset_ang",
+                "pin": "out"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          }
+        ],
+        "view": {
+          "scale": 0.5,
+          "trans": {
+            "x": 25,
+            "y": 35
+          }
+        }
+      },
+      "pos": {
+        "x": 371,
+        "y": -170
+      },
+      "rotate": false,
+      "comment_out": true,
+      "inputs": {
+        "tick_rad": {
+          "node": "controller",
+          "pin": "tick_rad"
+        },
+        "reset_rad": {
+          "node": "controller",
+          "pin": "reset_rad"
+        },
+        "tick_ang": {
+          "node": "controller",
+          "pin": "tick_ang"
+        },
+        "reset_ang": {
+          "node": "controller",
+          "pin": "reset_ang"
+        }
+      },
+      "default_values": {
+        "tick_rad": "",
+        "reset_rad": "",
+        "tick_ang": "",
+        "reset_ang": ""
+      }
+    },
+    {
+      "name": "speed_mm_sec",
+      "type": "base",
+      "cfg": {
+        "node": "parameter",
+        "data_type": "double",
+        "default": "15",
+        "type_header": ""
+      },
+      "pos": {
+        "x": -1762,
+        "y": 51
+      },
+      "rotate": false,
+      "comment_out": false
+    },
+    {
+      "name": "virtual_table",
+      "type": "base",
+      "cfg": {
+        "node": "subsystem",
+        "nodes": [
+          {
+            "name": "x",
+            "type": "base",
+            "cfg": {
+              "node": "input",
+              "name": "x_1"
+            },
+            "pos": {
+              "x": 2,
+              "y": -2
+            },
+            "rotate": false,
+            "comment_out": false
+          },
+          {
+            "name": "virtual_table",
+            "type": "class",
+            "cfg": {
+              "class": "virtual_table",
+              "prj": "zen_table",
+              "size": 600
+            },
+            "pos": {
+              "x": 503,
+              "y": 87
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "x": {
+                "node": "rt_5",
+                "pin": "out"
+              },
+              "y": {
+                "node": "rt_4",
+                "pin": "out"
+              }
+            },
+            "default_values": {
+              "x": "",
+              "y": ""
+            }
+          },
+          {
+            "name": "rt_4",
+            "type": "base",
+            "cfg": {
+              "node": "rt",
+              "data_type": "double",
+              "start_value": 0,
+              "type_header": ""
+            },
+            "pos": {
+              "x": 250,
+              "y": 152
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "y",
+                "pin": "out"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          },
+          {
+            "name": "rt_5",
+            "type": "base",
+            "cfg": {
+              "node": "rt",
+              "data_type": "double",
+              "start_value": 0,
+              "type_header": ""
+            },
+            "pos": {
+              "x": 254,
+              "y": 0
+            },
+            "rotate": false,
+            "comment_out": false,
+            "inputs": {
+              "in": {
+                "node": "x",
+                "pin": "out"
+              }
+            },
+            "default_values": {
+              "in": ""
+            }
+          },
+          {
+            "name": "y",
+            "type": "base",
+            "cfg": {
+              "node": "input",
+              "name": "x_1"
+            },
+            "pos": {
+              "x": -1,
+              "y": 170
+            },
+            "rotate": false,
+            "comment_out": false
+          }
+        ],
+        "view": {
+          "scale": 0.5,
+          "trans": {
+            "x": 25,
+            "y": 35
+          }
+        }
+      },
+      "pos": {
+        "x": -1131,
+        "y": 443
+      },
+      "rotate": false,
+      "comment_out": true,
+      "inputs": {
+        "x": {
+          "node": "player",
+          "pin": "x"
+        },
+        "y": {
+          "node": "player",
+          "pin": "y"
+        }
+      },
+      "default_values": {
+        "x": "",
+        "y": ""
+      }
+    },
+    {
+      "name": "ma_filter_x",
+      "type": "class",
+      "cfg": {
+        "class": "ma_filter",
+        "prj": "control",
+        "size": "25",
+        "init_with_first_input": true,
+        "initial_value": "0"
+      },
+      "pos": {
+        "x": -1117,
+        "y": 191
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "in": {
+          "node": "player",
+          "pin": "x"
+        }
+      },
+      "default_values": {
+        "in": "0"
+      }
+    },
+    {
+      "name": "ma_filter_y",
+      "type": "class",
+      "cfg": {
+        "class": "ma_filter",
+        "prj": "control",
+        "size": "25",
+        "init_with_first_input": true,
+        "initial_value": "0"
+      },
+      "pos": {
+        "x": -1115,
+        "y": 284
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "in": {
+          "node": "player",
+          "pin": "y"
+        }
+      },
+      "default_values": {
+        "in": "0"
+      }
+    }
+  ]
+}

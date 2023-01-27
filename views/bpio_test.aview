@@ -1,0 +1,92 @@
+{
+  "type": "list",
+  "elements": [
+    {
+      "type": "input_num",
+      "param": "s1_pos",
+      "min": 0,
+      "max": 10000,
+      "step": 1,
+      "btn_val": 1,
+      "show_input": true,
+      "show_range": true,
+      "show_btn": false,
+      "width": 1517,
+      "height": 20
+    },
+    {
+      "type": "input_num",
+      "param": "s1_rst",
+      "min": 0,
+      "max": 1,
+      "step": 1,
+      "btn_val": 1,
+      "show_input": false,
+      "show_range": true,
+      "show_btn": false,
+      "width": 1517,
+      "height": 20
+    },
+    {
+      "type": "input_num",
+      "param": "s2_pos",
+      "min": 0,
+      "max": 10000,
+      "step": 1,
+      "btn_val": 1,
+      "show_input": true,
+      "show_range": true,
+      "show_btn": false,
+      "width": 1517,
+      "height": 20
+    },
+    {
+      "type": "input_num",
+      "param": "s2_rst",
+      "min": 0,
+      "max": 1,
+      "step": 1,
+      "btn_val": 1,
+      "show_input": false,
+      "show_range": true,
+      "show_btn": false,
+      "width": 1517,
+      "height": 20
+    },
+    {
+      "type": "input_num",
+      "param": "speed_mm_sec",
+      "min": 10,
+      "max": 50,
+      "step": 0.01,
+      "btn_val": 1,
+      "show_input": true,
+      "show_range": true,
+      "show_btn": false,
+      "width": 1517,
+      "height": 20
+    },
+    {
+      "type": "display",
+      "display_name": true,
+      "num_digets": "3",
+      "signal": "bpio_usb.connected",
+      "width": 1517,
+      "height": 25
+    },
+    {
+      "signals": [
+        "len_1.out",
+        "len_2.out"
+      ],
+      "type": "scope",
+      "time_range": 10,
+      "y_max": "auto",
+      "y_min": "auto",
+      "width": 1517,
+      "height": 150
+    }
+  ],
+  "width": 1517,
+  "height": 852
+}

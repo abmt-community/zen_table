@@ -1,0 +1,16 @@
+{
+  "model": "table",
+  "runtime": "live",
+  "runtime_configs": {
+    "live": {
+      "cpp_flags": "-std=c++17",
+      "ld_flags": "",
+      "inc_path": [
+      ],
+      "ld_path": [
+      ],
+      "libs": [
+      ]
+    }
+  }
+}

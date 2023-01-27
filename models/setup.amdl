@@ -1,0 +1,238 @@
+{
+  "nodes": [
+    {
+      "name": "bpio_usb",
+      "type": "class",
+      "cfg": {
+        "class": "bpio_usb",
+        "prj": "bpio",
+        "device": "/dev/ttyACM0",
+        "stepper_pt2_t": 0.5,
+        "stepper_pt2_d": 1
+      },
+      "pos": {
+        "x": 130,
+        "y": -22
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "stepper_pos_1": {
+          "node": "s1_pos",
+          "pin": "value"
+        },
+        "stepper_reset_1": {
+          "node": "s1_rst",
+          "pin": "value"
+        },
+        "stepper_pos_2": {
+          "node": "s2_pos",
+          "pin": "value"
+        },
+        "stepper_reset_2": {
+          "node": "s2_rst",
+          "pin": "value"
+        }
+      },
+      "default_values": {
+        "led": "",
+        "pwm_1": "0",
+        "pwm_2": "0",
+        "pwm_3": "0",
+        "pwm_4": "0",
+        "pwm_5": "0",
+        "pwm_6": "0",
+        "stepper_pos_1": "0",
+        "stepper_reset_1": "false",
+        "stepper_pos_2": "0",
+        "stepper_reset_2": "false",
+        "stepper_pos_3": "0",
+        "stepper_reset_3": "false",
+        "stepper_pos_4": "0",
+        "stepper_reset_4": "false"
+      }
+    },
+    {
+      "name": "s1_pos",
+      "type": "base",
+      "cfg": {
+        "node": "parameter",
+        "data_type": "double",
+        "default": 0,
+        "type_header": ""
+      },
+      "pos": {
+        "x": -649,
+        "y": 29
+      },
+      "rotate": false,
+      "comment_out": false
+    },
+    {
+      "name": "s2_pos",
+      "type": "base",
+      "cfg": {
+        "node": "parameter",
+        "data_type": "double",
+        "default": 0,
+        "type_header": ""
+      },
+      "pos": {
+        "x": -648,
+        "y": 216
+      },
+      "rotate": false,
+      "comment_out": false
+    },
+    {
+      "name": "s1_rst",
+      "type": "base",
+      "cfg": {
+        "node": "parameter",
+        "data_type": "double",
+        "default": 0,
+        "type_header": ""
+      },
+      "pos": {
+        "x": -647,
+        "y": 123
+      },
+      "rotate": false,
+      "comment_out": false
+    },
+    {
+      "name": "s2_rst",
+      "type": "base",
+      "cfg": {
+        "node": "parameter",
+        "data_type": "double",
+        "default": 0,
+        "type_header": ""
+      },
+      "pos": {
+        "x": -650,
+        "y": 310
+      },
+      "rotate": false,
+      "comment_out": false
+    },
+    {
+      "name": "i2c",
+      "type": "class",
+      "cfg": {
+        "class": "i2c",
+        "prj": "io",
+        "device": "/dev/i2c-1"
+      },
+      "pos": {
+        "x": -654,
+        "y": -267
+      },
+      "rotate": false,
+      "comment_out": false,
+      "raster": "20ms"
+    },
+    {
+      "name": "sensor_1",
+      "type": "class",
+      "cfg": {
+        "class": "mpu_i2c_sensor",
+        "prj": "io",
+        "enable_magnetometer": true,
+        "use_alternate_address": false
+      },
+      "pos": {
+        "x": -292,
+        "y": -400
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "i2c_bus": {
+          "node": "i2c",
+          "pin": "i2c_bus"
+        }
+      },
+      "default_values": {
+        "i2c_bus": ""
+      }
+    },
+    {
+      "name": "sensor_2",
+      "type": "class",
+      "cfg": {
+        "class": "mpu_i2c_sensor",
+        "prj": "io",
+        "enable_magnetometer": true,
+        "use_alternate_address": true
+      },
+      "pos": {
+        "x": -297,
+        "y": -236
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "i2c_bus": {
+          "node": "i2c",
+          "pin": "i2c_bus"
+        }
+      },
+      "default_values": {
+        "i2c_bus": ""
+      }
+    },
+    {
+      "name": "len_2",
+      "type": "expression",
+      "cfg": {
+        "function": "mag.len()",
+        "output_name": "out",
+        "output_type": "auto",
+        "type_header": "",
+        "disable_output": false
+      },
+      "pos": {
+        "x": 194,
+        "y": -200
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "mag": {
+          "node": "sensor_2",
+          "pin": "mag"
+        }
+      },
+      "default_values": {
+        "mag": ""
+      }
+    },
+    {
+      "name": "len_1",
+      "type": "expression",
+      "cfg": {
+        "function": "mag.len()",
+        "output_name": "out",
+        "output_type": "auto",
+        "type_header": "",
+        "disable_output": false
+      },
+      "pos": {
+        "x": 194,
+        "y": -366
+      },
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "mag": {
+          "node": "sensor_1",
+          "pin": "mag"
+        }
+      },
+      "default_values": {
+        "mag": ""
+      }
+    }
+  ]
+}
